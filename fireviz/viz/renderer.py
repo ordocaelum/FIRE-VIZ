@@ -16,6 +16,18 @@ class VoxelRenderer:
         self.off_screen = off_screen
         self.ds = xr.open_dataset(self.nc_path, engine='netcdf4')
 
+    def close(self) -> None:
+        """Close the underlying dataset and release file handles."""
+        if self.ds is not None:
+            self.ds.close()
+            self.ds = None
+
+    def __enter__(self) -> "VoxelRenderer":
+        return self
+
+    def __exit__(self, *args: object) -> None:
+        self.close()
+
     def _make_grid(self):
         import pyvista as pv
 

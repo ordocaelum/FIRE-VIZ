@@ -18,7 +18,7 @@ def run_holdout_validation(ds: xr.Dataset, test_fraction=0.2, random_seed=42) ->
     X = np.column_stack([xx[occupied], yy[occupied], bottom_surface_depth[occupied]])
     y = bottom_bulk_density[occupied]
     if y.size < 3:
-        raise ValueError('Need at least three occupied columns for holdout validation')
+        raise ValueError('Need at least three occupied cells for holdout validation')
 
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_fraction, random_state=random_seed)
     model = GradientBoostingRegressor(random_state=random_seed)
